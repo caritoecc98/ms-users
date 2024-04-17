@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, FindOneOptions } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
@@ -35,11 +35,17 @@ export class UsersService {
     return `This action returns a #${id} user`;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(id: number, data: Partial<User>): Promise<void> {
+    await this.userRepository.update(id, data);
   }
 
   remove(id: number) {
     return `This action removes a #${id} user`;
   }
+
+  async findByResetPasswordToken(token: string): Promise<User | undefined> {
+    return await this.userRepository.findOne({ where: { resetPasswordToken: token } } as FindOneOptions<User>);
+
+  }
+
 }
