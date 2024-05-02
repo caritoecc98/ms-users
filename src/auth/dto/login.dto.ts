@@ -9,7 +9,7 @@ export class LoginDto {
   email: string;
 
   @IsString()
-  @MinLength(6,{ message: 'La contraseña debe tener al menos 6 caracteres' })
+  @MinLength(8,{ message: 'La contraseña debe tener al menos 8 caracteres' })
   @Transform(({ value }) => value.trim(),)   //Elimina espacios en blanco
   @Matches(/[A-Z]/, { message: 'La contraseña debe contener al menos una letra mayúscula' })
   @Matches(/^[^\u00C0-\u017F\s]+$/,{ message: 'La contraseña no debe contener tildes' })
