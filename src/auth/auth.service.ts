@@ -1,4 +1,3 @@
-
 import { FindOneOptions } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
 import {
@@ -46,6 +45,7 @@ export class AuthService {
 
   async login({ email, password }: LoginDto) {
     const user = await this.usersService.findByEmailWithPassword(email);
+    const userId=user.id;
     if (!user) {
       throw new UnauthorizedException('email is wrong');
     }
@@ -55,12 +55,16 @@ export class AuthService {
       throw new UnauthorizedException('password is wrong');
     }
 
-    const payload = { email: user.email, role: user.role };
+    const payload = { userId:user.id, name:user.name ,email: user.email, role: user.role };
     const token = await this.jwtService.signAsync(payload);
 
     return {
       token,
-      email,
+      payload
+      //userId
+      //userName
+      //userEmail
+      //userRole
     };
   }
 
@@ -115,5 +119,7 @@ export class AuthService {
       throw new BadRequestException('Invalid or expired token');
     }
   }
-
+  async profile({ email}: { email: string }) {
+    return await this.usersService.findOneByEmail(email);
+  }
 }

@@ -47,5 +47,12 @@ export class UsersService {
     return await this.userRepository.findOne({ where: { resetPasswordToken: token } } as FindOneOptions<User>);
 
   }
-
+  
+  async updateResetPasswordToken(email: string, resetToken: string): Promise<void> {
+    const user = await this.userRepository.findOne({ where: { email } });
+    if (user) {
+      user.resetPasswordToken = resetToken;
+      await this.userRepository.save(user);
+    }
+  }
 }
