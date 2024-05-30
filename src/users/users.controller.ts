@@ -21,10 +21,15 @@ export class UsersController {
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(+id);
   }
-  
+
+  //@Patch("update") 
+  //  async update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
+  //  return await this.usersService.update(id, updateUserDto);
+  //}
+
   @Patch(':id')
-  update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
-    return this.usersService.update(+id, updateUserDto);
+  async update(@Param('id') id: number, @Body() updateUserDto: UpdateUserDto) {
+    return await this.usersService.update(+id, updateUserDto);
   }
 
   @Delete(':id')

@@ -54,13 +54,19 @@ export class AuthService {
     if (!isPasswordValid) {
       throw new UnauthorizedException('password is wrong');
     }
-
-    const payload = { email: user.email, role: user.role };
+    const payload = { 
+      userId:user.id,
+      name:user.name, 
+      lastName: user.lastName,
+      email: user.email,
+      role: user.role
+    };
+    console.log(payload)
     const token = await this.jwtService.signAsync(payload);
-
+    
     return {
       token,
-      email,
+      user: payload,
     };
   }
 
@@ -115,5 +121,4 @@ export class AuthService {
       throw new BadRequestException('Invalid or expired token');
     }
   }
-
 }

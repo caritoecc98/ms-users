@@ -23,7 +23,7 @@ export class UsersService {
   findByEmailWithPassword(email: string) {
     return this.userRepository.findOne({
       where: { email },
-      select: ['id', 'name', 'email', 'password', 'role'],
+      select: ['id', 'name', 'lastName', 'email', 'password', 'role'],
     });
   }
 
@@ -36,9 +36,14 @@ export class UsersService {
   }
 
   async update(id: number, data: Partial<User>): Promise<void> {
-    await this.userRepository.update(id, data);
+    try {
+      await this.userRepository.update(id, data);
+    } catch (error) {
+      console.error("Error al actualizar el usuario en el servicio:", error);
+      throw new Error("No se pudo actualizar el usuario en el servicio.");
+    }
   }
-
+  
   remove(id: number) {
     return `This action removes a #${id} user`;
   }
