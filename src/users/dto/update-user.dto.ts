@@ -1,6 +1,5 @@
 import { Transform } from "class-transformer";
 import { IsEmail, IsString, MinLength,IsOptional, IsNotEmpty,Matches } from "class-validator";
-import { number } from "joi";
 import { ResetPasswordDto } from '../../auth/dto/reset-password.dto';
 
 export class UpdateUserDto {

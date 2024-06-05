@@ -31,7 +31,7 @@ import {
     resetPasswordToken: string;
   
 
-    @Column({ default: 'user' })
+    @Column({ default: 'user' }) 
     role: string;
   
     @DeleteDateColumn()
