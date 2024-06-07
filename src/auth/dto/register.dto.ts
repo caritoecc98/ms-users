@@ -5,12 +5,14 @@ export class RegisterDto {
   @IsNotEmpty()
   @IsString()
   @MinLength(4)
+  @Transform(({ value }) => value.trim())
   @Matches(/^[a-zA-Z0-9]+$/, { message: 'El nombre no debe contener caracteres especiales' })
   name: string;
 
   @IsNotEmpty()
   @IsString()
   @MinLength(4)
+  @Transform(({ value }) => value.trim())
   @Matches(/^[a-zA-Z0-9]+$/, { message: 'El apellido no debe contener caracteres especiales' })
   lastName: string;
 
