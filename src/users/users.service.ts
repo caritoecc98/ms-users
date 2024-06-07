@@ -27,9 +27,20 @@ export class UsersService {
     });
   }
 
-  findAll() {
-    return this.userRepository.find();
+  async findAll(id :number) {
+    const user = await this.userRepository.findOne({ where: { id },
+      select: ['id', 'name', 'lastName', 'email', 'password', 'role'],
+    });
+    if (!user) {
+      throw new Error('Usuario no encontrado');
+    }
+    if(user.role === 'admin') {
+      return this.userRepository.find();
+    } else {
+      return [user];
+    }
   }
+  
 
   findOne(id: number) {
     return `This action returns a #${id} user`;
