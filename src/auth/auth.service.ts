@@ -139,4 +139,9 @@ export class AuthService {
       throw new Error('Invalid token');
     }
   }
+
+  async isAdmin(userId: number): Promise<boolean> {
+    const user = await this.usersService.findOneById(userId); 
+    return user.role === 'admin';
+  }
 }

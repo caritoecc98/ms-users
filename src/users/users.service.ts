@@ -27,23 +27,27 @@ export class UsersService {
     });
   }
 
-  async findAll(id :number) {
-    const user = await this.userRepository.findOne({ where: { id },
+  async findAll(id: number) {
+    const user = await this.userRepository.findOne({
+      where: { id },
       select: ['id', 'name', 'lastName', 'email', 'password', 'role'],
     });
     if (!user) {
       throw new Error('Usuario no encontrado');
     }
-    if(user.role === 'admin') {
+    if (user.role === 'admin') {
       return this.userRepository.find();
     } else {
       return [user];
     }
   }
-  
 
   findOne(id: number) {
     return `This action returns a #${id} user`;
+  }
+
+  async findOneById(id: number): Promise<User> {
+    return await this.userRepository.findOne({ where: { id } });
   }
 
   async update(id: number, data: Partial<User>): Promise<void> {
@@ -54,21 +58,26 @@ export class UsersService {
       throw new Error("No se pudo actualizar el usuario en el servicio.");
     }
   }
-  
+
   remove(id: number) {
     return `This action removes a #${id} user`;
   }
 
   async findByResetPasswordToken(token: string): Promise<User | undefined> {
     return await this.userRepository.findOne({ where: { resetPasswordToken: token } } as FindOneOptions<User>);
-
   }
-  
+
   async updateResetPasswordToken(email: string, resetToken: string): Promise<void> {
     const user = await this.userRepository.findOne({ where: { email } });
     if (user) {
       user.resetPasswordToken = resetToken;
       await this.userRepository.save(user);
     }
+  }
+  
+  async findUserSchedule(userId: number): Promise<any> {
+  }
+
+  async updateUserSchedule(userId: number, scheduleData: any): Promise<void> {
   }
 }

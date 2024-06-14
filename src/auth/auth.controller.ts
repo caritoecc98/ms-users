@@ -4,7 +4,7 @@ import { RegisterDto } from "./dto/register.dto";
 import { AuthService } from "./auth.service";
 import { RequestResetPasswordDto } from "./dto/request-reset-password.dto";
 import { ResetPasswordDto } from "./dto/reset-password.dto";
-import { AuthGuard } from "./guard/auth.guard";
+import { AuthGuard } from "./auth.guard";
 
 @Controller("auth")
 export class AuthController {
