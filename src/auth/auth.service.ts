@@ -14,7 +14,7 @@ import { RequestResetPasswordDto } from './dto/request-reset-password.dto';
 import * as nodemailer from 'nodemailer';
 import { v4 } from 'uuid';
 import { ResetPasswordDto } from './dto/reset-password.dto';
-
+import { jwtConstants } from './constants/jwt.constant';
 
 @Injectable()
 export class AuthService {
@@ -123,5 +123,20 @@ export class AuthService {
   }
   async profile({ email}: { email: string }) {
     return await this.usersService.findOneByEmail(email);
+  }
+
+  async verifyToken(token: string): Promise<any> {
+    console.log("verifyToken")
+    console.log(token)
+    try {
+      const payload = await this.jwtService.verifyAsync(token, {
+        secret: jwtConstants.secret,
+      });
+      console.log("Valid token")
+      console.log(payload)
+      return payload;
+    } catch (error) {
+      throw new Error('Invalid token');
+    }
   }
 }

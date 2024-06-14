@@ -1,4 +1,4 @@
-import { Body, Controller, HttpCode, HttpStatus, Post, Patch,Query,Get,Request,UseGuards } from "@nestjs/common";
+import { Body, Controller, HttpCode, HttpStatus,Param, Res, Post, Patch,Query,Get,Request,UseGuards } from "@nestjs/common";
 import { LoginDto } from "./dto/login.dto";
 import { RegisterDto } from "./dto/register.dto";
 import { AuthService } from "./auth.service";
@@ -43,10 +43,14 @@ export class AuthController {
      return;
    }
 
-   //@UseGuards(AuthGuard)
+   @UseGuards(AuthGuard)
    @Get('profile')
    getProfile(@Request() req) {
      return req.user;
    }
-   
+
+   @Post('verifyToken')
+   async verifyToken(@Body('token') token: string): Promise<any> {
+     return await this.authService.verifyToken(token);
+   }
  }
