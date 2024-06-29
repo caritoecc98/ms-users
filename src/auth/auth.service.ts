@@ -111,12 +111,13 @@ export class AuthService {
   async resetPassword(token: string, resetPasswordDto: ResetPasswordDto): Promise<void> {
     const { newPassword } = resetPasswordDto;
     const user = await this.usersService.findByResetPasswordToken(token);  
-    console.log('buscando user');
+    //console.log('buscando user');
     if (user) {
       // Actualizar la contraseña y el token de restablecimiento del usuario
-      user.password = newPassword;
-      user.resetPasswordToken = null;
-      await this.usersService.update(user.id, { password: newPassword, resetPasswordToken: null });
+      const newPass = await bcryptjs.hash(newPassword,10)
+      user.password = newPass;
+      //user.resetPasswordToken = null;
+      await this.usersService.update(user.id, { password: newPass, resetPasswordToken: null });
     } else {
       throw new BadRequestException('Invalid or expired token');
     }

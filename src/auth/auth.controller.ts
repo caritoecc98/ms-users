@@ -33,7 +33,7 @@ export class AuthController {
  
    // Endpoint para restablecer la contraseña
    @HttpCode(HttpStatus.OK)
-   @Patch("reset")
+   @Patch("resetPassword")
    async resetPassword(
      @Query('token') token: string, // Obtener el token de la URL
      @Body() resetPasswordDto: ResetPasswordDto, // DTO con la nueva contraseña
